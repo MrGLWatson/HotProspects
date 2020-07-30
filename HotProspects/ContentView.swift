@@ -5,31 +5,19 @@
 //  Created by Gary Watson on 28/07/2020.
 //  Copyright © 2020 Gary Watson. All rights reserved.
 //
-// Manually publishing ObservableObject changes
+// Controlling image interpolation in SwiftUI
 
 import SwiftUI
 
-class DelayedUpdater: ObservableObject {
-    var value = 0 {
-        willSet {
-            objectWillChange.send()
-            // so we could add other code here to do stuff
-        }
-    }
-    
-    init() {
-        for i in 1...10 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
-                self.value += 1
-            }
-        }
-    }
-}
-
 struct ContentView: View {
-    @ObservedObject var updater = DelayedUpdater()
     var body: some View {
-            Text("Value is: \(updater.value)")
+        Image("example")
+            .interpolation(.none)
+        .resizable()
+        .scaledToFit()
+            .frame(maxHeight: .infinity)
+            .background(Color.black)
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
